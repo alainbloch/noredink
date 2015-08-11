@@ -29,7 +29,21 @@ class Quiz
   end
 
   def generate
-
+    # lets make a pool of all the questions
+    question_pool = @questions.clone
+    # question ids that we are generating
+    question_ids = []
+    # get questions that students have already been assigned
+    previous_questions = @usage.map{|r| r['question_id'] }.uniq
+    # we are going to eliminate these questions from the pool
+    question_pool.delete_if{|question| previous_questions.include?(question['question_id'])}
+    # go over the question pool and pick out some questions
+    index_range = (0..(question_pool.size - 1))
+    @length.times do |i|
+      question_ids << question_pool[rand(index_range)]['question_id']
+    end
+    return question_ids
   end
+
 
 end
