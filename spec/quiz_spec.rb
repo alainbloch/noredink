@@ -25,4 +25,13 @@ describe Quiz do
     end
   end
 
+  describe "#questions" do
+
+    it "has a list of questions" do
+      @quiz.questions.should_not be_nil
+      @quiz.questions.class should_be Array
+    end
+
+  end
+
 end
