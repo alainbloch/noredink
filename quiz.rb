@@ -31,8 +31,8 @@ class Quiz
   def generate
     # lets make a pool of all the questions
     question_pool = @questions.clone
-    # question ids that we are generating
-    question_ids = []
+    # questions that we are generating
+    quiz_questions = []
     # get questions that students have already been assigned
     previous_questions = @usage.map{|r| r['question_id'] }.uniq
     # we are going to eliminate these questions from the pool
@@ -40,9 +40,10 @@ class Quiz
     # go over the question pool and pick out some questions
     index_range = (0..(question_pool.size - 1))
     @length.times do |i|
-      question_ids << question_pool[rand(index_range)]['question_id']
+      quiz_questions << question_pool[rand(index_range)]
     end
-    return question_ids
+    quiz_questions.sort!{|a,b| a['difficulty'].to_f <=> b['difficulty'].to_f }
+    return quiz_questions.map{|q| q['question_id']}
   end
 
 
